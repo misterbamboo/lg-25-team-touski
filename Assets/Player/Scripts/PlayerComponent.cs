@@ -27,6 +27,11 @@ public class PlayerComponent : MonoBehaviour
         GameEventsBus.Instance.Subscribe<Looted>((l) => MoneyUp(1));
     }
 
+    private void Start()
+    {
+        MoneyUp(1);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -115,6 +120,7 @@ public class PlayerComponent : MonoBehaviour
     {
         if (atkTimer >= atkCd)
         {
+            Debug.Log("atk");
             StartCoroutine(Swing());
             atkTimer = 0;
         }
@@ -122,8 +128,9 @@ public class PlayerComponent : MonoBehaviour
 
     IEnumerator Swing()
     {
+        yield return new WaitForSeconds(Mathf.Log((bag.GetMoney() + 3) * 0.3f));
         attackBox.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         attackBox.gameObject.SetActive(false);
     }
 
@@ -162,7 +169,7 @@ public class PlayerComponent : MonoBehaviour
     public void MoneyUp(float money)
     {
         bag.ChangeMoney(money);
-        speed = (Mathf.Pow(bag.GetMoney() + 5, -1) * 15) + 0.5f;
+        speed = (Mathf.Pow(bag.GetMoney() + 3, -1) * 15) + 0.7f;
     }
 }
 

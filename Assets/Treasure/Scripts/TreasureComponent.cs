@@ -1,9 +1,10 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class TreasureComponent : MonoBehaviour
+public class TreasureComponent : MonoBehaviour, IPoolable
 {
-    public ObjectPoolComponent Pool;
+    public ObjectPoolComponent Pool { get; set; }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
