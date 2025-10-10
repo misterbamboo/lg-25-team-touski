@@ -6,10 +6,13 @@ public class LootingController : MonoBehaviour
 
     private bool isLooting = false;
     private float lootProgress = 0f;
+    private int quantity = 0;
 
     public bool IsLooting => isLooting;
     public float LootProgress => lootProgress;
     public float LootingSpeed => lootingSpeed;
+    public int Quantity => quantity;
+    public bool IsEmpty => quantity <= 0;
 
     private void Update()
     {
@@ -19,9 +22,14 @@ public class LootingController : MonoBehaviour
         }
     }
 
+    public void SetQuantity(int newQuantity)
+    {
+        quantity = Mathf.Max(0, newQuantity);
+    }
+
     public void StartLooting()
     {
-        if (isLooting) return;
+        if (isLooting || IsEmpty) return;
 
         isLooting = true;
         lootProgress = 0f;
@@ -49,8 +57,17 @@ public class LootingController : MonoBehaviour
 
     private void CompleteLoot()
     {
-        isLooting = false;
+        quantity--;
         lootProgress = 0f;
         GameEventsBus.Instance.Publish(new Looted());
+
+        if (quantity > 0)
+        {
+            lootProgress = 0f;
+        }
+        else
+        {
+            isLooting = false;
+        }
     }
 }

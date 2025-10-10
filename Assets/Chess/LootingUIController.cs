@@ -24,6 +24,7 @@ public class LootingUIController : MonoBehaviour
     private void Update()
     {
         UpdateSliderValue();
+        UpdateTextContent();
     }
 
     public bool IsUIVisible() => slider.gameObject.activeSelf || lootText.gameObject.activeSelf;
@@ -76,8 +77,11 @@ public class LootingUIController : MonoBehaviour
 
     private void OnLooted(Looted evt)
     {
-        HideSlider();
-        ShowTextIfInRange();
+        if (lootingController != null && lootingController.IsEmpty)
+        {
+            HideSlider();
+            ShowTextIfInRange();
+        }
     }
 
     private void UpdateSliderValue()
@@ -85,6 +89,21 @@ public class LootingUIController : MonoBehaviour
         if (lootingController != null && slider.gameObject.activeSelf)
         {
             slider.value = lootingController.LootProgress;
+        }
+    }
+
+    private void UpdateTextContent()
+    {
+        if (lootingController != null && lootText.gameObject.activeSelf)
+        {
+            if (lootingController.IsEmpty)
+            {
+                lootText.text = "Empty";
+            }
+            else
+            {
+                lootText.text = $"E to loot ({lootingController.Quantity})";
+            }
         }
     }
 

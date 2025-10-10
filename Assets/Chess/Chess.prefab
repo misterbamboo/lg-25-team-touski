@@ -348,6 +348,8 @@ MonoBehaviour:
   playerDetector: {fileID: 7233398214354190468}
   inputHandler: {fileID: 4973287863989935478}
   uiController: {fileID: 8636257060055714546}
+  lootingController: {fileID: 3933273215598328668}
+  initialQuantity: 5
 --- !u!114 &3933273215598328668
 MonoBehaviour:
   m_ObjectHideFlags: 0

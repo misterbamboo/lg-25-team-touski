@@ -10,10 +10,21 @@ public class Chess : MonoBehaviour
     [SerializeField] private PlayerDetector playerDetector;
     [SerializeField] private LootingInputHandler inputHandler;
     [SerializeField] private LootingUIController uiController;
+    [SerializeField] private LootingController lootingController;
+    [SerializeField] private int initialQuantity = 5;
 
     private void Start()
     {
+        InitializeLootingQuantity();
         SubscribeToPlayerDetector();
+    }
+
+    private void InitializeLootingQuantity()
+    {
+        if (lootingController != null)
+        {
+            lootingController.SetQuantity(initialQuantity);
+        }
     }
 
     private void OnDestroy()
