@@ -78,7 +78,7 @@ public class PlayerComponent : MonoBehaviour
         }
         Camera.main.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, -10);
 
-        Vector3 bagDistance = bag.transform.position - gameObject.transform.position;
+        Vector3 bagDistance = bag.gameObject.transform.position - gameObject.transform.position;
 
         if (bagDistance.magnitude >= 1 + (bag.gameObject.transform.localScale.y / 2) + 0.7f)
         {
@@ -149,6 +149,7 @@ public class PlayerComponent : MonoBehaviour
     {
         if (!iFrames && !isDead)
         {
+            GameEventsBus.Instance.Publish(new PlayerDamaged());
             MoneyUp(-1);
             if (bag.GetMoney() <= 0)
             {
