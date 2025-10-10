@@ -28,7 +28,7 @@ public class PlayerComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        speed = (Mathf.Pow(bag.GetMoney(),-1) * 2) + 1;
+        speed = (Mathf.Pow(bag.GetMoney()+5,-1) * 15) + 0.5f;
         if (!isDead)
         {
             atkTimer += Time.deltaTime;
