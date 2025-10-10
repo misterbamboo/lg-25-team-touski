@@ -19,7 +19,8 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Treasure"))
         {
-            player.MoneyUp(1);
+            player.MoneyUp(1); 
+            GameEventsBus.Instance.Publish(new MoneyGained());
             collision.gameObject.GetComponent<TreasureComponent>().IsPicked();
         }
 

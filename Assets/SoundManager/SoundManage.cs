@@ -17,6 +17,7 @@ public class SoundManage : MonoBehaviour
             Instance = this;
         GameEventsBus.Instance.Subscribe<PlayerSlash>((l) => { PlaySFX(slash, PlayerComponent.playerTransform); });
         GameEventsBus.Instance.Subscribe<PlayerDamaged>((l) => { PlaySFX(hurt, PlayerComponent.playerTransform); });
+        GameEventsBus.Instance.Subscribe<MoneyGained>((l) => { PlaySFX(money, PlayerComponent.playerTransform); });
     }
 
     public void PlaySFX(AudioClip clip, Transform sourceTransform)

@@ -112270,6 +112270,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8612392526162104042, guid: 9de2119d2913feb41ba9a8d050efa8f9, type: 3}
+      propertyPath: money
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8612392526162104042, guid: 9de2119d2913feb41ba9a8d050efa8f9, type: 3}
       propertyPath: score
       value: 
       objectReference: {fileID: 1965881654}
@@ -112731,11 +112735,11 @@ PrefabInstance:
       objectReference: {fileID: 1965881654}
     - target: {fileID: 7020697227121608690, guid: 9abe558730e6035458986ad6331a5af7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 7211198853232891332, guid: 9abe558730e6035458986ad6331a5af7, type: 3}
       propertyPath: m_Size.y
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7211198853232891332, guid: 9abe558730e6035458986ad6331a5af7, type: 3}
       propertyPath: m_IsTrigger
@@ -113392,6 +113396,67 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3ded250e058bff4785b8230e91f70ed, type: 3}
+--- !u!1001 &7130021880083937761
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2879685803371926793, guid: 22e52a4f375c1c748a2c163bde22d2d4, type: 3}
+      propertyPath: m_Name
+      value: SoundManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3569419161895916725, guid: 22e52a4f375c1c748a2c163bde22d2d4, type: 3}
+      propertyPath: objectToPool
+      value: 
+      objectReference: {fileID: 5339378585676915806, guid: 5633866f50a2d3941a3ad510426f761b, type: 3}
+    - target: {fileID: 7734820023586914350, guid: 22e52a4f375c1c748a2c163bde22d2d4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.3780427
+      objectReference: {fileID: 0}
+    - target: {fileID: 7734820023586914350, guid: 22e52a4f375c1c748a2c163bde22d2d4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.76584685
+      objectReference: {fileID: 0}
+    - target: {fileID: 7734820023586914350, guid: 22e52a4f375c1c748a2c163bde22d2d4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.03005692
+      objectReference: {fileID: 0}
+    - target: {fileID: 7734820023586914350, guid: 22e52a4f375c1c748a2c163bde22d2d4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7734820023586914350, guid: 22e52a4f375c1c748a2c163bde22d2d4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7734820023586914350, guid: 22e52a4f375c1c748a2c163bde22d2d4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7734820023586914350, guid: 22e52a4f375c1c748a2c163bde22d2d4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7734820023586914350, guid: 22e52a4f375c1c748a2c163bde22d2d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7734820023586914350, guid: 22e52a4f375c1c748a2c163bde22d2d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7734820023586914350, guid: 22e52a4f375c1c748a2c163bde22d2d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 22e52a4f375c1c748a2c163bde22d2d4, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -113407,3 +113472,4 @@ SceneRoots:
   - {fileID: 250552416}
   - {fileID: 1837820206}
   - {fileID: 1432791984}
+  - {fileID: 7130021880083937761}

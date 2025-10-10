@@ -28,7 +28,7 @@ public class PlayerComponent : MonoBehaviour
     void Awake()
     {
         //Cursor.lockState = CursorLockMode.Locked;
-        GameEventsBus.Instance.Subscribe<Looted>((l) => MoneyUp(1));
+        GameEventsBus.Instance.Subscribe<Looted>((l) => { MoneyUp(1); GameEventsBus.Instance.Publish(new MoneyGained()); }); 
         rb = GetComponent<Rigidbody2D>();
         playerTransform = gameObject.transform;
     }
@@ -146,6 +146,7 @@ public class PlayerComponent : MonoBehaviour
     {
         yield return new WaitForSeconds(Mathf.Log((bag.GetMoney() + 3) * 0.3f));
         attackBox.gameObject.SetActive(true);
+        GameEventsBus.Instance.Publish(new PlayerSlash());
         yield return new WaitForSeconds(0.3f);
         attackBox.gameObject.SetActive(false);
     }
