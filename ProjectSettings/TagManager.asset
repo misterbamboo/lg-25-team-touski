@@ -7,6 +7,8 @@ TagManager:
   - Bag
   - Treasure
   - Enemy
+  - PlayerAttack
+  - EnemyAttack
   layers:
   - Default
   - TransparentFX

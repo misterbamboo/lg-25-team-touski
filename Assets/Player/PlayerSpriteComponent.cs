@@ -3,11 +3,12 @@ using UnityEngine;
 public class PlayerSpriteComponent : MonoBehaviour
 {
     [SerializeField] PlayerComponent player;
+    SpriteRenderer spriteRenderer;
     private float lastMoveX = 0;
     private float lastMoveY = -1;
     void Awake()
     {
-
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,6 +34,14 @@ public class PlayerSpriteComponent : MonoBehaviour
         else
         {
 
+        }
+    }
+
+    public void ChangeColor(Color color)
+    {
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = color;
         }
     }
 }

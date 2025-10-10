@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class PlayerComponent : MonoBehaviour
 {
     [SerializeField] float speed = 3;
     [SerializeField] float atkCd = 2;
     [SerializeField] float slowMoveCd = 2;
+    [SerializeField] float blinkSpeed = 0.2f;
     [SerializeField] PlayerSpriteComponent sprite;
     [SerializeField] BagComponent bag;
     [SerializeField] BoxCollider2D attackBox;
@@ -28,7 +30,6 @@ public class PlayerComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        speed = (Mathf.Pow(bag.GetMoney(),-1) * 2) + 1;
         if (!isDead)
         {
             atkTimer += Time.deltaTime;
@@ -66,7 +67,7 @@ public class PlayerComponent : MonoBehaviour
                 slowMoveTimer = 0;
             }
         }
-        
+        Camera.main.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, -10);
     }
 
     IEnumerator SlowMovement()
@@ -130,6 +131,7 @@ public class PlayerComponent : MonoBehaviour
     {
         if (!iFrames && !isDead)
         {
+            MoneyUp(-1);
             if (bag.GetMoney() <= 0)
             {
                 gameObject.SetActive(false);
@@ -141,22 +143,26 @@ public class PlayerComponent : MonoBehaviour
 
     IEnumerator Flash()
     {
-        float timeElapsed = 0;
         iFrames = true;
-        while (timeElapsed < 3)
+        float time = 0;
+        while (time < 2)
         {
-            sprite.gameObject.SetActive(!sprite.gameObject.activeSelf);
-            timeElapsed += Time.deltaTime;
-            yield return null;
+            sprite.ChangeColor(Color.red);
+            time += blinkSpeed;
+            yield return new WaitForSeconds(blinkSpeed);
+            sprite.ChangeColor(new Color(0.3f, 0, 0));
+            time += blinkSpeed;
+            yield return new WaitForSeconds(blinkSpeed);
         }
+        sprite.ChangeColor(Color.white);
         iFrames = false;
-        sprite.gameObject.SetActive(true);
         yield return null;
     }
 
     public void MoneyUp(float money)
     {
         bag.ChangeMoney(money);
+        speed = (Mathf.Pow(bag.GetMoney() + 5, -1) * 15) + 0.5f;
     }
 }
 
