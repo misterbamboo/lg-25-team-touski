@@ -16,47 +16,28 @@ public class Tribe : MonoBehaviour
     [SerializeField] private float spawnRadius = 5f;
     [SerializeField] private float minDistanceBetweenGoblins = 1.5f;
 
-    [Header("Campfire")]
-    [SerializeField] private GameObject campfirePrefab;
-
     private List<GameObject> tribeMembers = new List<GameObject>();
-    private GameObject campfire;
     private int memberCount;
 
-    // Query methods (CQS)
     public int GetMemberCount() => memberCount;
     public Vector3 GetTribeCenter() => transform.position;
     public List<GameObject> GetTribeMembers() => new List<GameObject>(tribeMembers);
 
-    // Command: Initialize tribe with specific member count (SRP: Initialization)
     public void Initialize(int count)
     {
         memberCount = Mathf.Clamp(count, minMemberCount, maxMemberCount);
-        SpawnCampfire();
         SpawnGoblins();
     }
 
     private void Start()
     {
-        // Auto-initialize with random member count if not manually initialized
         if (memberCount == 0)
         {
             memberCount = Random.Range(minMemberCount, maxMemberCount + 1);
-            SpawnCampfire();
             SpawnGoblins();
         }
     }
 
-    // Command: Spawn campfire at tribe center (SRP: Campfire creation)
-    private void SpawnCampfire()
-    {
-        if (campfirePrefab != null)
-        {
-            campfire = Instantiate(campfirePrefab, transform.position, Quaternion.identity, transform);
-        }
-    }
-
-    // Command: Spawn all goblins (SRP: Goblin spawning orchestration)
     private void SpawnGoblins()
     {
         if (goblinPrefab == null)
@@ -72,7 +53,6 @@ public class Tribe : MonoBehaviour
         }
     }
 
-    // Query: Find valid spawn position (CQS: Pure calculation)
     private Vector3 FindValidSpawnPosition()
     {
         int maxAttempts = 30;
@@ -91,14 +71,12 @@ public class Tribe : MonoBehaviour
         return GetRandomPositionInRadius();
     }
 
-    // Query: Get random position within spawn radius (CQS: Pure calculation)
     private Vector3 GetRandomPositionInRadius()
     {
         Vector2 randomCircle = Random.insideUnitCircle * spawnRadius;
         return transform.position + new Vector3(randomCircle.x, randomCircle.y, 0f);
     }
 
-    // Query: Check if position is valid (CQS: Pure validation)
     private bool IsPositionValid(Vector3 position)
     {
         // Check distance from campfire center
@@ -119,27 +97,23 @@ public class Tribe : MonoBehaviour
         return true;
     }
 
-    // Command: Spawn single goblin (SRP: Individual goblin creation)
     private void SpawnGoblin(Vector3 position)
     {
         GameObject goblin = Instantiate(goblinPrefab, position, Quaternion.identity, transform);
         tribeMembers.Add(goblin);
     }
 
-    // Command: Remove dead/missing goblins from list (SRP: Cleanup)
     public void CleanupDeadMembers()
     {
         tribeMembers.RemoveAll(goblin => goblin == null);
     }
 
-    // Query: Get alive member count (CQS: Pure query)
     public int GetAliveMemberCount()
     {
         CleanupDeadMembers();
         return tribeMembers.Count;
     }
 
-    // Gizmos for debugging
     private void OnDrawGizmosSelected()
     {
         // Draw spawn radius
@@ -164,7 +138,6 @@ public class Tribe : MonoBehaviour
         }
     }
 
-    // Helper: Draw circle gizmo (SRP: Visualization helper)
     private void DrawCircle(Vector3 center, float radius, int segments)
     {
         float angleStep = 360f / segments;
