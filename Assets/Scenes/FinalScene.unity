@@ -112293,11 +112293,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8a1e8d4b3f4bf4eb8f52fa76dfbbe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &1432791986 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6792475498072511424, guid: 9de2119d2913feb41ba9a8d050efa8f9, type: 3}
-  m_PrefabInstance: {fileID: 1432791984}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1470817224
 GameObject:
   m_ObjectHideFlags: 0
@@ -112721,7 +112716,7 @@ PrefabInstance:
     - target: {fileID: 2884002316882187609, guid: 9abe558730e6035458986ad6331a5af7, type: 3}
       propertyPath: bagPos
       value: 
-      objectReference: {fileID: 1432791986}
+      objectReference: {fileID: 1738618520}
     - target: {fileID: 2884002316882187609, guid: 9abe558730e6035458986ad6331a5af7, type: 3}
       propertyPath: sprite
       value: 

@@ -7,11 +7,16 @@ public class SoundManage : MonoBehaviour
     public static SoundManage Instance;
 
     [SerializeField] ObjectPoolComponent pool;
+    [SerializeField] AudioClip slash;
+    [SerializeField] AudioClip hurt;
+    [SerializeField] AudioClip money;
 
     void Awake()
     {
         if (Instance == null)
             Instance = this;
+        GameEventsBus.Instance.Subscribe<PlayerSlash>((l) => { PlaySFX(slash, PlayerComponent.playerTransform); });
+        GameEventsBus.Instance.Subscribe<PlayerDamaged>((l) => { PlaySFX(hurt, PlayerComponent.playerTransform); });
     }
 
     public void PlaySFX(AudioClip clip, Transform sourceTransform)
