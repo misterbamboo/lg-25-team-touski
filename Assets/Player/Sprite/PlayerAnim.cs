@@ -10,23 +10,19 @@ public class PlayerAnim : MonoBehaviour
     [SerializeField] private float movementThreshold = 0.01f;
     [SerializeField] private float maxSpeed = 5f; // Maximum expected player speed
 
-    [Header("Sprite Swapping")]
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Sprite defaultSprite;
-    [SerializeField] private Sprite hitSprite;
-    [SerializeField] private float hitSpriteDuration = 1f;
+    [Header("Damage Animation")]
+    [SerializeField] private float damagedStateDuration = 1f;
 
     private Vector3 lastPosition;
     private bool isWalking = false;
     private float currentSpeed = 0f;
-    private float hitSpriteTimer = 0f;
-    private bool isShowingHitSprite = false;
+    private float damagedTimer = 0f;
+    private bool isDamaged = false;
 
     private void Start()
     {
         InitializePosition();
         InitializeAnimator();
-        InitializeSprite();
         SubscribeToEvents();
     }
 
@@ -39,7 +35,7 @@ public class PlayerAnim : MonoBehaviour
     {
         CheckMovement();
         UpdateAnimatorSpeed();
-        UpdateHitSpriteTimer();
+        UpdateDamagedTimer();
     }
 
     private void InitializePosition()
@@ -52,17 +48,7 @@ public class PlayerAnim : MonoBehaviour
         if (animator != null)
         {
             animator.SetBool("IsWalking", false);
-        }
-    }
-
-    // Command: Initialize sprite (SRP: Sprite initialization)
-    private void InitializeSprite()
-    {
-        if (spriteRenderer != null && defaultSprite != null)
-        {
-            spriteRenderer.sprite = defaultSprite;
-            isShowingHitSprite = false;
-            hitSpriteTimer = 0f;
+            animator.SetBool("IsDamaged", false);
         }
     }
 
@@ -81,42 +67,40 @@ public class PlayerAnim : MonoBehaviour
     // Command: Handle player damaged event (SRP: Damage response)
     private void OnPlayerDamaged(PlayerDamaged evt)
     {
-        ShowHitSprite();
+        SetDamagedState(true);
     }
 
-    // Command: Show hit sprite (SRP: Hit sprite display)
-    private void ShowHitSprite()
+    // Command: Set damaged animation state (SRP: Damage state management)
+    private void SetDamagedState(bool damaged)
     {
-        if (spriteRenderer != null && hitSprite != null)
+        if (animator == null)
+            return;
+
+        if (damaged)
         {
-            spriteRenderer.sprite = hitSprite;
-            isShowingHitSprite = true;
-            hitSpriteTimer = hitSpriteDuration;
+            isDamaged = true;
+            animator.SetBool("IsDamaged", true);
+            damagedTimer = damagedStateDuration;
+        }
+        else
+        {
+            isDamaged = false;
+            animator.SetBool("IsDamaged", false);
+            damagedTimer = 0f;
         }
     }
 
-    // Command: Update hit sprite timer (SRP: Timer management)
-    private void UpdateHitSpriteTimer()
+    // Command: Update damaged timer (SRP: Timer management)
+    private void UpdateDamagedTimer()
     {
-        if (isShowingHitSprite)
+        if (isDamaged && damagedTimer > 0f)
         {
-            hitSpriteTimer -= Time.deltaTime;
+            damagedTimer -= Time.deltaTime;
 
-            if (hitSpriteTimer <= 0f)
+            if (damagedTimer <= 0f)
             {
-                RevertToDefaultSprite();
+                SetDamagedState(false);
             }
-        }
-    }
-
-    // Command: Revert to default sprite (SRP: Sprite restoration)
-    private void RevertToDefaultSprite()
-    {
-        if (spriteRenderer != null && defaultSprite != null)
-        {
-            spriteRenderer.sprite = defaultSprite;
-            isShowingHitSprite = false;
-            hitSpriteTimer = 0f;
         }
     }
 
