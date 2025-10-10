@@ -109,81 +109,170 @@ public class GoblinMovement : MonoBehaviour
 
     private void UpdateState()
     {
-        distanceToTarget = Vector3.Distance(transform.position, targetPosition);
+        CalculateDistanceToTarget();
+        DetermineCurrentState();
+        UpdateChasingFlag();
+        UpdateSpeed();
+    }
 
-        // Check if player is in detection range
-        if (playerInRange && playerTransform != null)
+    private void CalculateDistanceToTarget()
+    {
+        distanceToTarget = Vector3.Distance(transform.position, targetPosition);
+    }
+
+    private void DetermineCurrentState()
+    {
+        if (ShouldChasePlayer())
         {
-            currentState = GoblinState.ChasingPlayer;
-            isChasing = true;
-            lastKnownPlayerPosition = playerTransform.position;
-            hasLastKnownPlayerPosition = true;
-            targetPosition = playerTransform.position;
-            targetSpeed = runSpeed;
+            TransitionToChasingPlayer();
         }
-        // Player escaped, go to last known position
-        else if (hasLastKnownPlayerPosition && currentState == GoblinState.ChasingPlayer)
+        else if (ShouldGoToLastKnownPosition())
         {
-            currentState = GoblinState.GoingToLastKnownPosition;
-            targetPosition = lastKnownPlayerPosition;
-            targetSpeed = walkSpeed;
+            TransitionToGoingToLastKnownPosition();
         }
-        // Arrived at last known position or no player detected
-        else if (currentState == GoblinState.GoingToLastKnownPosition && distanceToTarget < stoppingDistance)
+        else if (ShouldReturnToIdle())
         {
-            hasLastKnownPlayerPosition = false;
-            currentState = GoblinState.Idle;
-            idleTimer = 0f;
+            TransitionToIdle();
+        }
+        else if (IsIdleOrWandering())
+        {
+            HandleIdleAndWanderingBehavior();
+        }
+    }
+
+    private bool ShouldChasePlayer()
+    {
+        return playerInRange && playerTransform != null;
+    }
+
+    private bool ShouldGoToLastKnownPosition()
+    {
+        return hasLastKnownPlayerPosition && currentState == GoblinState.ChasingPlayer;
+    }
+
+    private bool ShouldReturnToIdle()
+    {
+        return currentState == GoblinState.GoingToLastKnownPosition && HasReachedTarget();
+    }
+
+    private bool HasReachedTarget()
+    {
+        return distanceToTarget < stoppingDistance;
+    }
+
+    private bool IsIdleOrWandering()
+    {
+        return !isChasing;
+    }
+
+    private void TransitionToChasingPlayer()
+    {
+        currentState = GoblinState.ChasingPlayer;
+        isChasing = true;
+        lastKnownPlayerPosition = playerTransform.position;
+        hasLastKnownPlayerPosition = true;
+        targetPosition = playerTransform.position;
+        targetSpeed = runSpeed;
+    }
+
+    private void TransitionToGoingToLastKnownPosition()
+    {
+        currentState = GoblinState.GoingToLastKnownPosition;
+        targetPosition = lastKnownPlayerPosition;
+        targetSpeed = walkSpeed;
+    }
+
+    private void TransitionToIdle()
+    {
+        hasLastKnownPlayerPosition = false;
+        currentState = GoblinState.Idle;
+        idleTimer = 0f;
+        targetSpeed = 0f;
+    }
+
+    private void HandleIdleAndWanderingBehavior()
+    {
+        if (currentState == GoblinState.Idle)
+        {
+            UpdateIdleState();
+        }
+        else if (currentState == GoblinState.Wandering)
+        {
+            UpdateWanderingState();
+        }
+    }
+
+    private void UpdateIdleState()
+    {
+        idleTimer += Time.deltaTime;
+        targetSpeed = 0f;
+
+        if (ShouldStartWandering())
+        {
+            StartWandering();
+        }
+    }
+
+    private bool ShouldStartWandering()
+    {
+        return idleTimer >= idleTimeBeforeWander;
+    }
+
+    private void StartWandering()
+    {
+        SetNewWanderTarget();
+        currentState = GoblinState.Wandering;
+        targetSpeed = walkSpeed;
+    }
+
+    private void UpdateWanderingState()
+    {
+        UpdateWanderingSpeed();
+
+        if (HasReachedTarget())
+        {
+            StopWandering();
+        }
+    }
+
+    private void UpdateWanderingSpeed()
+    {
+        float decelerationDistance = CalculateDecelerationDistance();
+
+        if (ShouldDecelerate(decelerationDistance))
+        {
             targetSpeed = 0f;
         }
-        // Idle and wandering behavior
-        else if (!isChasing)
+        else
         {
-            if (currentState == GoblinState.Idle)
-            {
-                idleTimer += Time.deltaTime;
-                targetSpeed = 0f;
-
-                if (idleTimer >= idleTimeBeforeWander)
-                {
-                    SetNewWanderTarget();
-                    currentState = GoblinState.Wandering;
-                    targetSpeed = walkSpeed;
-                }
-            }
-            else if (currentState == GoblinState.Wandering)
-            {
-                // Start decelerating when approaching target
-                float decelerationDistance = (currentSpeed * currentSpeed) / (2f * decelerationRate);
-
-                if (distanceToTarget <= decelerationDistance)
-                {
-                    targetSpeed = 0f;
-                }
-                else
-                {
-                    targetSpeed = walkSpeed;
-                }
-
-                // Reached target, go back to idle
-                if (distanceToTarget < stoppingDistance)
-                {
-                    currentState = GoblinState.Idle;
-                    idleTimer = 0f;
-                    targetSpeed = 0f;
-                    currentSpeed = 0f;
-                }
-            }
+            targetSpeed = walkSpeed;
         }
+    }
 
-        // Reset chasing flag if not actively chasing
+    private float CalculateDecelerationDistance()
+    {
+        return (currentSpeed * currentSpeed) / (2f * decelerationRate);
+    }
+
+    private bool ShouldDecelerate(float decelerationDistance)
+    {
+        return distanceToTarget <= decelerationDistance;
+    }
+
+    private void StopWandering()
+    {
+        currentState = GoblinState.Idle;
+        idleTimer = 0f;
+        targetSpeed = 0f;
+        currentSpeed = 0f;
+    }
+
+    private void UpdateChasingFlag()
+    {
         if (currentState != GoblinState.ChasingPlayer)
         {
             isChasing = false;
         }
-
-        // Update current speed with acceleration/deceleration
-        UpdateSpeed();
     }
 
     private void UpdateSpeed()
@@ -211,19 +300,16 @@ public class GoblinMovement : MonoBehaviour
 
     private void SetNewWanderTarget()
     {
-        // Random distance between min and max wander distance
         float randomDistance = Random.Range(minWanderDistance, maxWanderDistance);
 
-        // Random direction
         Vector3 randomDirection = Random.insideUnitSphere;
-        randomDirection.y = 0; // Keep on same Y plane
+        randomDirection.y = 0;
         randomDirection.Normalize();
 
         Vector3 potentialTarget = transform.position + randomDirection * randomDistance;
 
         // Check if too far from spawn point
         float distanceFromSpawn = Vector3.Distance(potentialTarget, spawnPoint);
-
         if (distanceFromSpawn > maxDistanceFromSpawn)
         {
             // Set target towards spawn point instead
@@ -234,37 +320,8 @@ public class GoblinMovement : MonoBehaviour
         targetPosition = potentialTarget;
     }
 
-    // Query methods (CQS)
     public bool IsMoving() => currentSpeed > 0.01f;
     public float GetCurrentSpeed() => currentSpeed;
     public GoblinState GetCurrentState() => currentState;
     public bool IsPlayerInRange() => playerInRange;
-
-    // Gizmos for debugging
-    private void OnDrawGizmosSelected()
-    {
-        // Draw spawn point
-        Vector3 spawn = Application.isPlaying ? spawnPoint : transform.position;
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(spawn, 0.5f);
-
-        // Draw max distance from spawn
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(spawn, maxDistanceFromSpawn);
-
-        // Draw target position
-        if (Application.isPlaying)
-        {
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawLine(transform.position, targetPosition);
-            Gizmos.DrawSphere(targetPosition, 0.3f);
-
-            // Draw last known player position if exists
-            if (hasLastKnownPlayerPosition)
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(lastKnownPlayerPosition, 0.5f);
-            }
-        }
-    }
 }
