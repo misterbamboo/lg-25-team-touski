@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BagCollisions : MonoBehaviour
 {
-    BagComponent bag;
+    [SerializeField] PlayerComponent player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,7 +19,7 @@ public class BagCollisions : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("EnemyAttack"))
         {
-            bag.ChangeMoney(-1);
+            player.Damage();
         }
     }
 }

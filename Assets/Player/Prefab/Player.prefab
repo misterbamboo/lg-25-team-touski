@@ -184,7 +184,7 @@ MonoBehaviour:
   atkCd: 2
   slowMoveCd: 2
   blinkSpeed: 0.1
-  sprite: {fileID: 0}
+  sprite: {fileID: 7686836348918236415, guid: 6c81cca25fdb4a24cba1da073618c459, type: 3}
   bag: {fileID: 3544587859547562368}
   attackBox: {fileID: 7211198853232891332}
   damage: 1
@@ -288,6 +288,7 @@ GameObject:
   - component: {fileID: 3544587859547562368}
   - component: {fileID: 3804585775398206237}
   - component: {fileID: 6531572518215489260}
+  - component: {fileID: 557089747183139015}
   m_Layer: 0
   m_Name: Bag
   m_TagString: Bag
@@ -451,6 +452,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &557089747183139015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615150319120082752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fb5593831ad7734f91c8da425eadf71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 2884002316882187609}
 --- !u!1 &4567282344109623400
 GameObject:
   m_ObjectHideFlags: 0
