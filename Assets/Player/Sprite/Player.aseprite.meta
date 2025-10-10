@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e11d4fc636d9db94faed51495b796061
+guid: a68a117e09b58bf41a8e41bc71cfdb36
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -135,7 +135,7 @@ ScriptedImporter:
       y: 70
       width: 19
       height: 24
-    spriteID: 32a93831f7a983c49b4fbcd5b9fe3464
+    spriteID: 24dbf617e0c1ce644bae1edfd1b45bf1
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -156,7 +156,7 @@ ScriptedImporter:
       y: 4
       width: 19
       height: 25
-    spriteID: c1953e7c8fa932048824ee477482fabe
+    spriteID: 899407d44d8f69949942ca5002e9e316
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -177,7 +177,7 @@ ScriptedImporter:
       y: 4
       width: 19
       height: 24
-    spriteID: 868e7e8996b397b42ac4a8a792b9a016
+    spriteID: 5755a3b9c9e394b44ab67bc86f83bcad
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -198,7 +198,7 @@ ScriptedImporter:
       y: 37
       width: 19
       height: 25
-    spriteID: 7808a1a6f7223f646a62906086efe719
+    spriteID: 5eeac352b884c964b9770c08c194317c
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -211,12 +211,12 @@ ScriptedImporter:
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 4157225617
+      value0: 1875862075
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: Goblin
+    name: Player
     layerFlags: 0
     layerType: 0
     blendMode: 0
@@ -229,7 +229,7 @@ ScriptedImporter:
         y: 3
         width: 19
         height: 24
-      spriteId: 32a93831f7a983c49b4fbcd5b9fe3464
+      spriteId: 24dbf617e0c1ce644bae1edfd1b45bf1
     - name: Frame_1
       frameIndex: 1
       additiveSortOrder: 0
@@ -238,7 +238,7 @@ ScriptedImporter:
         y: 1
         width: 19
         height: 25
-      spriteId: c1953e7c8fa932048824ee477482fabe
+      spriteId: 899407d44d8f69949942ca5002e9e316
     - name: Frame_2
       frameIndex: 2
       additiveSortOrder: 0
@@ -247,7 +247,7 @@ ScriptedImporter:
         y: 3
         width: 19
         height: 24
-      spriteId: 868e7e8996b397b42ac4a8a792b9a016
+      spriteId: 5755a3b9c9e394b44ab67bc86f83bcad
     - name: Frame_3
       frameIndex: 3
       additiveSortOrder: 0
@@ -256,7 +256,7 @@ ScriptedImporter:
         y: 1
         width: 19
         height: 25
-      spriteId: 7808a1a6f7223f646a62906086efe719
+      spriteId: 5eeac352b884c964b9770c08c194317c
     linkedCells: []
     parentIndex: -1
   platformSettings:
