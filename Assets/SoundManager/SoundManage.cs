@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.VFX;
@@ -12,6 +13,7 @@ public class SoundManage : MonoBehaviour
     [SerializeField] AudioClip money;
     [SerializeField] AudioClip spotted;
     [SerializeField] AudioClip goblinDeath;
+    [SerializeField] AudioClip music;
 
     void Awake()
     {
@@ -22,6 +24,12 @@ public class SoundManage : MonoBehaviour
         GameEventsBus.Instance.Subscribe<MoneyGained>((l) => { PlaySFX(money, PlayerComponent.playerTransform); });
         GameEventsBus.Instance.Subscribe<GoblinSurprise>((l) => { PlaySFX(spotted, PlayerComponent.playerTransform); });
         GameEventsBus.Instance.Subscribe<GoblinDeath>((l) => { PlaySFX(goblinDeath, PlayerComponent.playerTransform); });
+        GameEventsBus.Instance.Subscribe<ReplayMusic>((l) => { StartCoroutine(PlayMusic()); });
+    }
+
+    private void Start()
+    {
+        GameEventsBus.Instance.Publish(new ReplayMusic());
     }
 
     public void PlaySFX(AudioClip clip, Transform sourceTransform)
@@ -35,5 +43,10 @@ public class SoundManage : MonoBehaviour
         audioObject.GetComponent<RecycleAudio>().Recycle(audio.clip.length);
     }
 
-
+    IEnumerator PlayMusic()
+    {
+        PlaySFX(music, PlayerComponent.playerTransform);
+        yield return new WaitForSeconds(music.length);
+        GameEventsBus.Instance.Publish(new ReplayMusic());
+    }
 }

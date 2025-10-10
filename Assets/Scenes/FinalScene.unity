@@ -113412,6 +113412,10 @@ PrefabInstance:
       propertyPath: objectToPool
       value: 
       objectReference: {fileID: 5339378585676915806, guid: 5633866f50a2d3941a3ad510426f761b, type: 3}
+    - target: {fileID: 4038015484296291823, guid: 22e52a4f375c1c748a2c163bde22d2d4, type: 3}
+      propertyPath: hurt
+      value: 
+      objectReference: {fileID: 8300000, guid: eb527b9a62573fd489eae634cf952b01, type: 3}
     - target: {fileID: 7734820023586914350, guid: 22e52a4f375c1c748a2c163bde22d2d4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.3780427

@@ -65,3 +65,4 @@ MonoBehaviour:
   money: {fileID: 8300000, guid: 891193ec8ed82114b80621c42f5e461b, type: 3}
   spotted: {fileID: 8300000, guid: 69516fd8ad85e91499793b7275dc4265, type: 3}
   goblinDeath: {fileID: 8300000, guid: 84877bd13b22fd443aa5ced49011ade8, type: 3}
+  music: {fileID: 8300000, guid: 5e3225dbfabd5c24394da8a94b2a680c, type: 3}
