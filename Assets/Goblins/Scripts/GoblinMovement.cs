@@ -76,7 +76,7 @@ public class GoblinMovement : MonoBehaviour
     private void OnPlayerEnterRange()
     {
         playerInRange = true;
-        GameEventsBus.Instance.Publish(new GoblinSurprise());
+        GameEventsBus.Instance.Publish(new GoblinSurprise(this));
         GameObject playerObj = FindPlayer();
         if (playerObj != null)
         {
