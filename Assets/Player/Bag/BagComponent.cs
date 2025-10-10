@@ -12,15 +12,14 @@ public class BagComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.localScale = Vector3.one * (Mathf.Log(money * 2) + 1);
-        gameObject.transform.localPosition = new Vector3(0, (-gameObject.transform.localScale.y / 2) - 0.6f, 0);
+
     }
 
     public void ChangeMoney(float change)
     {
         money += change;
-        //gameObject.transform.localScale = Vector3.one * (Mathf.Log(money * 2) + 1);
-        //gameObject.transform.localPosition = new Vector3(0, (-gameObject.transform.localScale.y / 2) - 0.6f, 0);
+        gameObject.transform.localScale = Vector3.one * (Mathf.Log(money * 2) + 1);
+        gameObject.transform.localPosition = new Vector3(0, (-gameObject.transform.localScale.y / 2) - 0.6f, 0);
     }
 
     public float GetMoney() => money;

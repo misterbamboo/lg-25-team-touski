@@ -183,6 +183,7 @@ MonoBehaviour:
   speed: 3
   atkCd: 2
   slowMoveCd: 2
+  blinkSpeed: 0.1
   sprite: {fileID: 0}
   bag: {fileID: 3544587859547562368}
   attackBox: {fileID: 7211198853232891332}

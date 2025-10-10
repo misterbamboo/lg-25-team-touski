@@ -23,9 +23,9 @@ public class PlayerCollisions : MonoBehaviour
             collision.gameObject.GetComponent<TreasureComponent>().IsPicked();
         }
 
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("EnemyAttack"))
         {
-            player.MoneyUp(-1);
+            player.Damage();
         }
     }
 }
