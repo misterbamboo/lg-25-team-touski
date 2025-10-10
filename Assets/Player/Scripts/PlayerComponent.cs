@@ -13,6 +13,8 @@ public class PlayerComponent : MonoBehaviour
     [SerializeField] PlayerSpriteComponent sprite;
     [SerializeField] BagComponent bag;
     [SerializeField] BoxCollider2D attackBox;
+    [SerializeField] Transform bagPos;
+    Rigidbody2D rb;
     public float damage = 1;
     bool iFrames = false;
     float atkTimer = 0;
@@ -25,6 +27,7 @@ public class PlayerComponent : MonoBehaviour
     {
         //Cursor.lockState = CursorLockMode.Locked;
         GameEventsBus.Instance.Subscribe<Looted>((l) => MoneyUp(1));
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
@@ -41,12 +44,15 @@ public class PlayerComponent : MonoBehaviour
             slowMoveTimer += Time.deltaTime;
             Movement();
         }
+        bagPos.localPosition = new Vector3(0, (-bag.gameObject.transform.localScale.y / 2) - 0.7f, 0);
+        bag.targetPos = bagPos;
     }
 
     private void Movement()
     {
         if (bag.GetMoney() < 40)
         {
+            //rb.linearVelocity = (move * speed);
             transform.Translate((speed * move) * Time.deltaTime, Space.World);
             switch (dir)
             {
@@ -73,13 +79,20 @@ public class PlayerComponent : MonoBehaviour
             }
         }
         Camera.main.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, -10);
+
+        Vector3 bagDistance = bag.transform.position - gameObject.transform.position;
+
+        if (bagDistance.magnitude >= 1 + (bag.gameObject.transform.localScale.y / 2) + 0.7f)
+        {
+            transform.Translate((bagDistance * 1.5f) * Time.deltaTime, Space.World);
+        }
     }
 
     IEnumerator SlowMovement()
     {
         for (float i = 0; i < 1; i += Time.deltaTime)
         {
-            transform.Translate((0.7f * move) * Time.deltaTime, Space.World); 
+            transform.Translate((0.7f * move) * Time.deltaTime, Space.World);
             switch (dir)
             {
                 case Direction.Left:
