@@ -20,7 +20,7 @@ public class PlayerComponent : MonoBehaviour
     float atkTimer = 0;
     float slowMoveTimer = 0;
     Direction dir;
-    public bool isDead = false;
+    bool isDead = false;
     public Vector2 move = Vector2.zero;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -44,8 +44,6 @@ public class PlayerComponent : MonoBehaviour
             slowMoveTimer += Time.deltaTime;
             Movement();
         }
-        bagPos.localPosition = new Vector3(0, (-bag.gameObject.transform.localScale.y / 2) - 0.7f, 0);
-        bag.targetPos = bagPos;
     }
 
     private void Movement()
@@ -154,6 +152,8 @@ public class PlayerComponent : MonoBehaviour
             MoneyUp(-1);
             if (bag.GetMoney() <= 0)
             {
+                isDead = true;
+                bag.gameObject.SetActive(false);
                 gameObject.SetActive(false);
             }
             else
@@ -183,6 +183,8 @@ public class PlayerComponent : MonoBehaviour
     {
         bag.ChangeMoney(money);
         speed = (Mathf.Pow(bag.GetMoney() + 3, -1) * 15) + 0.7f;
+        bagPos.localPosition = new Vector3(0, (-bag.gameObject.transform.localScale.y / 2) - 0.7f, 0);
+        bag.targetPos = bagPos;
     }
 }
 
