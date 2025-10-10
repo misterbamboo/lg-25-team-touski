@@ -28,7 +28,7 @@ public class PlayerComponent : MonoBehaviour
     void Awake()
     {
         //Cursor.lockState = CursorLockMode.Locked;
-        GameEventsBus.Instance.Subscribe<Looted>((l) => { MoneyUp(1); GameEventsBus.Instance.Publish(new MoneyGained()); }); 
+        GameEventsBus.Instance.Subscribe<Looted>((l) => { MoneyUp(1); GameEventsBus.Instance.Publish(new MoneyGained()); });
         rb = GetComponent<Rigidbody2D>();
         playerTransform = gameObject.transform;
     }
@@ -190,6 +190,12 @@ public class PlayerComponent : MonoBehaviour
     {
         bag.ChangeMoney(money);
         speed = (Mathf.Pow(bag.GetMoney() + 3, -1) * 15) + 0.7f;
+    }
+
+    public void DropMoney(InputAction.CallbackContext ctx)
+    {
+        if (bag.GetMoney() > 1)
+            MoneyUp(-1);
     }
 }
 
