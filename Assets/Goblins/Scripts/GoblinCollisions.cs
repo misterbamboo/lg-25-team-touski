@@ -18,7 +18,7 @@ public class GoblinCollisions : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("PlayerAttack"))
         {
-            Debug.Log("drop");
+            GameEventsBus.Instance.Publish(new GoblinDeath());
             PearlSpawner.Instance.GetPearl(transform);
             Destroy(gameObject);
         }

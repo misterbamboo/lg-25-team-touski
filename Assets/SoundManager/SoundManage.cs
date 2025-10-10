@@ -10,6 +10,8 @@ public class SoundManage : MonoBehaviour
     [SerializeField] AudioClip slash;
     [SerializeField] AudioClip hurt;
     [SerializeField] AudioClip money;
+    [SerializeField] AudioClip spotted;
+    [SerializeField] AudioClip goblinDeath;
 
     void Awake()
     {
@@ -18,6 +20,8 @@ public class SoundManage : MonoBehaviour
         GameEventsBus.Instance.Subscribe<PlayerSlash>((l) => { PlaySFX(slash, PlayerComponent.playerTransform); });
         GameEventsBus.Instance.Subscribe<PlayerDamaged>((l) => { PlaySFX(hurt, PlayerComponent.playerTransform); });
         GameEventsBus.Instance.Subscribe<MoneyGained>((l) => { PlaySFX(money, PlayerComponent.playerTransform); });
+        GameEventsBus.Instance.Subscribe<GoblinSurprise>((l) => { PlaySFX(spotted, PlayerComponent.playerTransform); });
+        GameEventsBus.Instance.Subscribe<GoblinDeath>((l) => { PlaySFX(goblinDeath, PlayerComponent.playerTransform); });
     }
 
     public void PlaySFX(AudioClip clip, Transform sourceTransform)

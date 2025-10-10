@@ -63,3 +63,5 @@ MonoBehaviour:
   slash: {fileID: 8300000, guid: 63ca015cad6b4534c85766c6c23ca5cb, type: 3}
   hurt: {fileID: 8300000, guid: eb527b9a62573fd489eae634cf952b01, type: 3}
   money: {fileID: 8300000, guid: 891193ec8ed82114b80621c42f5e461b, type: 3}
+  spotted: {fileID: 8300000, guid: 69516fd8ad85e91499793b7275dc4265, type: 3}
+  goblinDeath: {fileID: 8300000, guid: 84877bd13b22fd443aa5ced49011ade8, type: 3}
