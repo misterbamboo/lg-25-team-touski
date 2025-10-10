@@ -1,21 +1,59 @@
 using UnityEngine;
-using UnityEngine.UI;
 
+/// <summary>
+/// Coordinates looting system components (SRP: Single responsibility for coordination)
+/// DIP: Depends on abstractions (components), not concrete implementations
+/// OCP: Open for extension, closed for modification
+/// </summary>
 public class Chess : MonoBehaviour
 {
-    [SerializeField] private Slider slider;
     [SerializeField] private PlayerDetector playerDetector;
+    [SerializeField] private LootingInputHandler inputHandler;
+    [SerializeField] private LootingUIController uiController;
 
     private void Start()
     {
-        slider.gameObject.SetActive(false);
-
-        playerDetector.OnPlayerEnter += () => OnPlayerRangeChanged(true);
-        playerDetector.OnPlayerExit += () => OnPlayerRangeChanged(false);
+        SubscribeToPlayerDetector();
     }
 
-    private void OnPlayerRangeChanged(bool inRange)
+    private void OnDestroy()
     {
-        slider.gameObject.SetActive(inRange);
+        UnsubscribeFromPlayerDetector();
+    }
+
+    private void SubscribeToPlayerDetector()
+    {
+        if (playerDetector != null)
+        {
+            playerDetector.OnPlayerEnter += OnPlayerEnter;
+            playerDetector.OnPlayerExit += OnPlayerExit;
+        }
+    }
+
+    private void UnsubscribeFromPlayerDetector()
+    {
+        if (playerDetector != null)
+        {
+            playerDetector.OnPlayerEnter -= OnPlayerEnter;
+            playerDetector.OnPlayerExit -= OnPlayerExit;
+        }
+    }
+
+    private void OnPlayerEnter()
+    {
+        if (inputHandler != null)
+            inputHandler.SetPlayerInRange(true);
+
+        if (uiController != null)
+            uiController.SetPlayerInRange(true);
+    }
+
+    private void OnPlayerExit()
+    {
+        if (inputHandler != null)
+            inputHandler.SetPlayerInRange(false);
+
+        if (uiController != null)
+            uiController.SetPlayerInRange(false);
     }
 }
