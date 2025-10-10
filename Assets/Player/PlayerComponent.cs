@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -21,6 +22,7 @@ public class PlayerComponent : MonoBehaviour
     void Awake()
     {
         //Cursor.lockState = CursorLockMode.Locked;
+        GameEventsBus.Instance.Subscribe<Looted>((l) => MoneyUp(1));
     }
 
     // Update is called once per frame
