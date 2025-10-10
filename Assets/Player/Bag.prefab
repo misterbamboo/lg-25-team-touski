@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.0862944, y: 2.0862944, z: 2.0862944}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -103,10 +103,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8a1e8d4b3f4bf4eb8f52fa76dfbbe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 0
+  money: 2
   score: {fileID: 0}
   targetPos: {fileID: 0}
-  rb: {fileID: 0}
 --- !u!61 &8248659537863414903
 BoxCollider2D:
   m_ObjectHideFlags: 0

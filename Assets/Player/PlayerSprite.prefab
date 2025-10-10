@@ -171,3 +171,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 551280795493624476}
   movementThreshold: 0.01
+  maxSpeed: 5
+  spriteRenderer: {fileID: 6037251223420393682}
+  defaultSprite: {fileID: -2311659948842064771, guid: a02a12890518f1a4d88523e0cc7761d6, type: 3}
+  hitSprite: {fileID: 331603183092489821, guid: 4026d06e012af7e4f8090e0321f333c2, type: 3}
+  hitSpriteDuration: 1
