@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Goblin : MonoBehaviour
+public class GoblinAnimation : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private float movementThreshold = 0.001f;
