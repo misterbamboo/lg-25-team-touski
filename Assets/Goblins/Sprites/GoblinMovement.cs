@@ -13,8 +13,11 @@ public class GoblinMovement : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float walkSpeed = 2f;
     [SerializeField] private float runSpeed = 4f;
-    [SerializeField] private float accelerationRate = 3f;
-    [SerializeField] private float decelerationRate = 3f;
+    [SerializeField] private float walkAccelerationRate = 1f;
+    [SerializeField] private float walkDecelerationRate = 1.5f;
+    [SerializeField] private float runAccelerationRate = 5f;
+    [SerializeField] private float runDecelerationRate = 3f;
+    [SerializeField] private Animator animator;
 
     [Header("Wander Settings")]
     [SerializeField] private float idleTimeBeforeWander = 2f;
@@ -113,6 +116,7 @@ public class GoblinMovement : MonoBehaviour
         DetermineCurrentState();
         UpdateChasingFlag();
         UpdateSpeed();
+        UpdateAnimatorSpeed();
     }
 
     private void CalculateDistanceToTarget()
@@ -251,7 +255,8 @@ public class GoblinMovement : MonoBehaviour
 
     private float CalculateDecelerationDistance()
     {
-        return (currentSpeed * currentSpeed) / (2f * decelerationRate);
+        float decelRate = GetCurrentDecelerationRate();
+        return (currentSpeed * currentSpeed) / (2f * decelRate);
     }
 
     private bool ShouldDecelerate(float decelerationDistance)
@@ -277,16 +282,49 @@ public class GoblinMovement : MonoBehaviour
 
     private void UpdateSpeed()
     {
+        float accelerationRate = GetCurrentAccelerationRate();
+        float decelerationRate = GetCurrentDecelerationRate();
+
         if (currentSpeed < targetSpeed)
         {
-            // Accelerate
-            currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, accelerationRate * Time.deltaTime);
+            // Accelerate with smooth exponential easing
+            currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, accelerationRate * Time.deltaTime);
         }
         else if (currentSpeed > targetSpeed)
         {
-            // Decelerate
-            currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, decelerationRate * Time.deltaTime);
+            // Decelerate with smooth exponential easing
+            currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, decelerationRate * Time.deltaTime);
         }
+    }
+
+    private float GetCurrentAccelerationRate()
+    {
+        return IsChasing() ? runAccelerationRate : walkAccelerationRate;
+    }
+
+    private float GetCurrentDecelerationRate()
+    {
+        return IsChasing() ? runDecelerationRate : walkDecelerationRate;
+    }
+
+    private bool IsChasing()
+    {
+        return currentState == GoblinState.ChasingPlayer;
+    }
+
+    private void UpdateAnimatorSpeed()
+    {
+        if (animator != null)
+        {
+            float normalizedSpeed = CalculateNormalizedSpeed();
+            animator.speed = normalizedSpeed;
+        }
+    }
+
+    private float CalculateNormalizedSpeed()
+    {
+        float maxSpeed = Mathf.Max(walkSpeed, runSpeed);
+        return currentSpeed / maxSpeed;
     }
 
     private void MoveTowardsTarget()
